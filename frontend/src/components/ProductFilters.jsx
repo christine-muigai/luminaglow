@@ -19,7 +19,6 @@ export default function ProductFilters() {
     <div className="bg-white p-4 rounded-lg shadow-md">
       <h3 className="font-bold text-lg mb-4">Filters</h3>
       
-      {/* Category Filter */}
       <div className="mb-4">
         <label className="block font-medium mb-2">Category</label>
         <select
