@@ -18,8 +18,7 @@ def get_filtered_products(
     db: Session = Depends(get_db)
 ):
     query = db.query(models.Product)
-    
-    # Apply filters
+
     if category:
         query = query.filter(models.Product.category == category)
     if min_price:
