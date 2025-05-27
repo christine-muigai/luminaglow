@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import PropTypes from 'prop-types';
+import { useState } from 'react'
 
 export default function FilterPanel({ onFilter }) {
   const [filters, setFilters] = useState({
@@ -7,29 +6,22 @@ export default function FilterPanel({ onFilter }) {
     maxPrice: '',
     crueltyFree: false,
     vegan: false
-  });
+  })
+
+  const skinTypes = ['dry', 'oily', 'combination', 'sensitive', 'normal']
 
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value, type, checked } = e.target
     setFilters(prev => ({
       ...prev,
       [name]: type === 'checkbox' ? checked : value
-    }));
-  };
+    }))
+  }
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    try {
-      // Validate inputs before filtering
-      if (filters.maxPrice && isNaN(filters.maxPrice)) {
-        throw new Error('Max price must be a number');
-      }
-      onFilter(filters);
-    } catch (error) {
-      console.error('Filter error:', error);
-      // You can set error state here to display to user
-    }
-  };
+    e.preventDefault()
+    onFilter(filters)
+  }
 
   const resetFilters = () => {
     const reset = {
@@ -37,33 +29,32 @@ export default function FilterPanel({ onFilter }) {
       maxPrice: '',
       crueltyFree: false,
       vegan: false
-    };
-    setFilters(reset);
-    onFilter(reset);
-  };
+    }
+    setFilters(reset)
+    onFilter(reset)
+  }
 
   return (
-    <div className="bg-white p-4 rounded-lg shadow">
-      <h3 className="font-semibold text-lg mb-3">Filter Products</h3>
-      <form onSubmit={handleSubmit} className="space-y-3">
-        {/* Skin Type Select */}
+    <div className="bg-white p-4 rounded-lg shadow-sm">
+      <h3 className="font-semibold text-lg mb-4">Filter Products</h3>
+      <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label className="block text-sm font-medium mb-1">Skin Type</label>
           <select
             name="skinType"
             value={filters.skinType}
             onChange={handleChange}
-            className="w-full p-2 border rounded"
+            className="w-full p-2 border border-gray-300 rounded"
           >
-            <option value="">All Types</option>
-            <option value="dry">Dry</option>
-            <option value="oily">Oily</option>
-            <option value="combination">Combination</option>
-            <option value="sensitive">Sensitive</option>
+            <option value="">All Skin Types</option>
+            {skinTypes.map(type => (
+              <option key={type} value={type}>
+                {type.charAt(0).toUpperCase() + type.slice(1)}
+              </option>
+            ))}
           </select>
         </div>
 
-        {/* Max Price Input */}
         <div>
           <label className="block text-sm font-medium mb-1">Max Price ($)</label>
           <input
@@ -73,11 +64,11 @@ export default function FilterPanel({ onFilter }) {
             onChange={handleChange}
             min="0"
             step="0.01"
-            className="w-full p-2 border rounded"
+            placeholder="No limit"
+            className="w-full p-2 border border-gray-300 rounded"
           />
         </div>
 
-        {/* Checkboxes */}
         <div className="space-y-2">
           <label className="flex items-center space-x-2">
             <input
@@ -87,7 +78,7 @@ export default function FilterPanel({ onFilter }) {
               onChange={handleChange}
               className="h-4 w-4"
             />
-            <span>Cruelty Free</span>
+            <span>Cruelty Free Only</span>
           </label>
           <label className="flex items-center space-x-2">
             <input
@@ -97,17 +88,16 @@ export default function FilterPanel({ onFilter }) {
               onChange={handleChange}
               className="h-4 w-4"
             />
-            <span>Vegan</span>
+            <span>Vegan Only</span>
           </label>
         </div>
 
-        {/* Buttons */}
-        <div className="flex space-x-2 pt-2">
+        <div className="flex space-x-2">
           <button
             type="submit"
             className="flex-1 bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
           >
-            Apply
+            Apply Filters
           </button>
           <button
             type="button"
@@ -119,9 +109,5 @@ export default function FilterPanel({ onFilter }) {
         </div>
       </form>
     </div>
-  );
+  )
 }
-
-FilterPanel.propTypes = {
-  onFilter: PropTypes.func.isRequired
-};

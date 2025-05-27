@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import ProductsPage from './pages/ProductsPage'
 import ProductDetail from './pages/ProductDetail'
 import Navbar from './components/Navbar'
+import Footer from './components/Footer'
 
 function App() {
   return (

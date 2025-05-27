@@ -6,6 +6,8 @@ export default function ReviewForm({ onReviewSubmit }) {
   const { productId } = useParams()
   const [rating, setRating] = useState(0)
   const [comment, setComment] = useState('')
+  const [userName, setUserName] = useState('')
+  const [userEmail, setUserEmail] = useState('')
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState('')
 
@@ -17,11 +19,18 @@ export default function ReviewForm({ onReviewSubmit }) {
     try {
       const response = await axios.post(
         `http://localhost:8000/products/${productId}/reviews`,
-        { rating, comment }
+        { 
+          rating, 
+          comment,
+          user_name: userName || undefined,
+          user_email: userEmail || undefined
+        }
       )
       onReviewSubmit(response.data)
       setRating(0)
       setComment('')
+      setUserName('')
+      setUserEmail('')
     } catch (err) {
       setError(err.response?.data?.detail || 'Failed to submit review')
     } finally {
@@ -40,6 +49,27 @@ export default function ReviewForm({ onReviewSubmit }) {
       )}
 
       <form onSubmit={handleSubmit}>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+          <div>
+            <label className="block text-sm font-medium mb-1">Your Name (Optional)</label>
+            <input
+              type="text"
+              value={userName}
+              onChange={(e) => setUserName(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-1">Your Email (Optional)</label>
+            <input
+              type="email"
+              value={userEmail}
+              onChange={(e) => setUserEmail(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md"
+            />
+          </div>
+        </div>
+
         <div className="mb-4">
           <label className="block text-sm font-medium mb-2">Rating</label>
           <div className="flex space-x-1">

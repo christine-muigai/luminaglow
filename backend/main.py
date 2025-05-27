@@ -1,28 +1,31 @@
 from fastapi import FastAPI, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from typing import List
+from typing import List, Optional
 from datetime import datetime
 import uuid
 
 app = FastAPI()
 
-# CORS Configuration
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Data Models
 class Product(BaseModel):
     id: int
     name: str
+    brand: str
     price: float
     image_url: str
-    description: str
+    rating: Optional[float] = None
+    skin_type: str
+    is_cruelty_free: bool
+    is_vegan: bool
+    description: Optional[str] = None
 
 class Review(BaseModel):
     id: str
@@ -31,72 +34,106 @@ class Review(BaseModel):
     comment: str
     created_at: str
 
-# Database Mock
 products_db = [
     {
         "id": 1,
         "name": "Hydrating Facial Moisturizer",
+        "brand": "GlowLab",
         "price": 24.99,
-        "image_url": "https://i.pinimg.com/736x/88/51/be/8851bed856cbf253f2046a9d0b67cdc9.jpg",
-        "description": "Deeply hydrating moisturizer for all skin types"
+        "image_url": "https://i.pinimg.com/736x/94/07/21/94072195d53f07b62f68e81d0d04d817.jpg",
+        "rating": 4.5,
+        "skin_type": "dry",
+        "is_cruelty_free": True,
+        "is_vegan": True,
+        "description": "Deeply hydrating moisturizer with natural ingredients for dry skin types"
     },
     {
         "id": 2,
-        "name": "Foundation",
+        "name": "Charcoal Cleansing Bar",
+        "brand": "PureSkin",
         "price": 18.50,
-        "image_url": "https://via.placeholder.com/300?text=Cleanser",
-        "description": "Purifying charcoal cleanser for oily skin"
-    },
-     {
-        "id": 3,
-        "name": "Charcoal cleansing bar",
-        "price": 30.00,
-        "image_url": "https://i.pinimg.com/736x/85/a3/92/85a392147d0faf6794ba042c05f15122.jpg",
-        "description": "Deeply hydrating moisturizer for all skin types"
-    },
-     {
-        "id": 4,
-        "name": "Toner",
-        "price": 24.99,
-        "image_url": "https://i.pinimg.com/736x/98/85/7a/98857a057b32c479372818cf20994860.jpg",
-        "description": "Balances pH and preps skin for moisture"
-    },
-     {
-        "id": 5,
-        "name": "Hydrating Facial Moisturizer",
-        "price": 24.99,
-        "image_url": "https://via.placeholder.com/300?text=Moisturizer",
-        "description": "Deeply hydrating moisturizer for all skin types"
-    },
-     {
-        "id": 6,
-        "name": "Hydrating Facial Moisturizer",
-        "price": 24.99,
-        "image_url": "https://via.placeholder.com/300?text=Moisturizer",
-        "description": "Deeply hydrating moisturizer for all skin types"
-    },
-     {
-        "id": 7,
-        "name": "Hydrating Facial Moisturizer",
-        "price": 24.99,
-        "image_url": "https://via.placeholder.com/300?text=Moisturizer",
-        "description": "Deeply hydrating moisturizer for all skin types"
-    },
-     {
-        "id": 8,
-        "name": "Hydrating Facial Moisturizer",
-        "price": 24.99,
-        "image_url": "https://via.placeholder.com/300?text=Moisturizer",
-        "description": "Deeply hydrating moisturizer for all skin types"
+        "image_url": "https://i.pinimg.com/736x/cd/4e/81/cd4e818113c31852ea1410771a2b7a77.jpg",
+        "rating": 4.2,
+        "skin_type": "oily",
+        "is_cruelty_free": True,
+        "is_vegan": False,
+        "description": "Purifying charcoal cleanser that removes excess oil without stripping moisture"
     }
 ]
 
-reviews_db = []
+reviews_db = [
+    {
+        "id": str(uuid.uuid4()),
+        "product_id": 1, 
+        "rating": 5,
+        "comment": "This moisturizer saved my dry skin! Absorbs quickly and doesn't feel greasy.",
+        "created_at": "2023-10-15T09:30:00"
+    },
+    {
+        "id": str(uuid.uuid4()),
+        "product_id": 1,
+        "rating": 4,
+        "comment": "Really good moisturizer, though I wish the scent was a bit lighter.",
+        "created_at": "2023-11-02T14:45:00"
+    },
+    {
+        "id": str(uuid.uuid4()),
+        "product_id": 1,
+        "rating": 3,
+        "comment": "It's okay, but didn't work as well for my sensitive skin as I hoped.",
+        "created_at": "2023-11-20T18:15:00"
+    },
+    {
+        "id": str(uuid.uuid4()),
+        "product_id": 2,  
+        "rating": 5,
+        "comment": "Fantastic cleanser! My oily skin has never felt cleaner without being stripped.",
+        "created_at": "2023-09-28T10:20:00"
+    },
+    {
+        "id": str(uuid.uuid4()),
+        "product_id": 2,
+        "rating": 2,
+        "comment": "Dried out my skin too much. Might work better for very oily skin types.",
+        "created_at": "2023-10-10T16:30:00"
+    },
+    {
+        "id": str(uuid.uuid4()),
+        "product_id": 2,
+        "rating": 4,
+        "comment": "Great for deep cleaning. Lasts a long time too!",
+        "created_at": "2023-11-15T12:10:00"
+    }
+]
 
-# API Endpoints
+def update_product_rating(product_id: int):
+    product_reviews = [r for r in reviews_db if r["product_id"] == product_id]
+    if product_reviews:
+        avg_rating = sum(r["rating"] for r in product_reviews) / len(product_reviews)
+        for product in products_db:
+            if product["id"] == product_id:
+                product["rating"] = round(avg_rating, 1)
+
+
 @app.get("/products", response_model=List[Product])
-async def get_products():
-    return products_db
+async def get_products(
+    skin_type: Optional[str] = None,
+    max_price: Optional[float] = None,
+    cruelty_free: Optional[bool] = None,
+    vegan: Optional[bool] = None
+):
+    filtered_products = products_db.copy()
+    
+    if skin_type:
+        filtered_products = [p for p in filtered_products if p["skin_type"] == skin_type]
+    if max_price:
+        filtered_products = [p for p in filtered_products if p["price"] <= max_price]
+    if cruelty_free:
+        filtered_products = [p for p in filtered_products if p["is_cruelty_free"] == cruelty_free]
+    if vegan:
+        filtered_products = [p for p in filtered_products if p["is_vegan"] == vegan]
+    
+    return filtered_products
 
 @app.get("/products/{product_id}", response_model=Product)
 async def get_product(product_id: int):
@@ -121,6 +158,7 @@ async def create_review(product_id: int, rating: int, comment: str):
         "created_at": datetime.now().isoformat()
     }
     reviews_db.append(review)
+    update_product_rating(product_id)
     return review
 
 @app.get("/products/{product_id}/reviews", response_model=List[Review])
