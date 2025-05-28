@@ -1,9 +1,9 @@
-<<<<<<< HEAD
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
 import ReviewForm from '../components/ReviewForm'
 import ReviewList from '../components/ReviewList'
+import { useCart } from '../context/CartContext'
 
 export default function ProductDetail() {
   const { productId } = useParams()
@@ -11,6 +11,7 @@ export default function ProductDetail() {
   const [reviews, setReviews] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+  const { addToCart } = useCart()
 
   useEffect(() => {
     const fetchData = async () => {
@@ -32,11 +33,14 @@ export default function ProductDetail() {
 
   const handleReviewSubmit = (newReview) => {
     setReviews([...reviews, newReview])
-    // Update local product rating optimistically
     setProduct(prev => ({
       ...prev,
       rating: ((prev.rating * (reviews.length)) + newReview.rating) / (reviews.length + 1)
     }))
+  }
+
+  const handleAddToCart = () => {
+    addToCart(product)
   }
 
   if (loading) return <div className="text-center py-8">Loading...</div>
@@ -84,6 +88,13 @@ export default function ProductDetail() {
             </div>
 
             <p className="mt-4 text-gray-700">{product.description}</p>
+
+            <button
+              className="mt-6 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+              onClick={handleAddToCart}
+            >
+              Add to Cart
+            </button>
           </div>
         </div>
 
@@ -96,12 +107,4 @@ export default function ProductDetail() {
     </div>
   )
 }
-=======
-import { useCart } from '../context/CartContext'; 
 
-
-const { addToCart } = useCart();
-
-
-
->>>>>>> origin/ft-shoppingcart
