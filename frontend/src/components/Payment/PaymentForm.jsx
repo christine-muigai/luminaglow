@@ -1,116 +1,101 @@
 import { useState } from 'react';
+import { processPayment } from '../services/PaymentService';
 
-export default function PaymentForm() {
+const PaymentForm = ({ onSuccess, onError }) => {
   const [cardDetails, setCardDetails] = useState({
     number: '',
     expiry: '',
-    cvc: '',
+    cvv: '',
     name: ''
   });
+  const [loading, setLoading] = useState(false);
 
-  const validateCard = () => {
-    if (!cardDetails.number || cardDetails.number.replace(/\s/g, '').length < 16) {
-      alert("Card number must be 16 digits");
-      return false;
-    }
-    if (!cardDetails.expiry || !cardDetails.expiry.includes('/')) {
-      alert("Expiry date must be in MM/YY format");
-      return false;
-    }
-    if (!cardDetails.cvc || cardDetails.cvc.length < 3) {
-      alert("CVC must be 3 digits");
-      return false;
-    }
-    return true;
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setCardDetails(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (validateCard()) {
-      alert("Payment processing would start here!\n" + JSON.stringify(cardDetails, null, 2));
+    setLoading(true);
+    try {
+      const response = await processPayment(cardDetails);
+      onSuccess(response);
+    } catch (error) {
+      onError(error.message);
+    } finally {
+      setLoading(false);
     }
-  };
-
-  const handleCardNumberChange = (e) => {
-    let value = e.target.value.replace(/\D/g, '');
-    if (value.length > 16) value = value.substring(0, 16);
-    value = value.replace(/(\d{4})(?=\d)/g, '$1 ');
-    setCardDetails({...cardDetails, number: value});
-  };
-
-  const handleExpiryChange = (e) => {
-    let value = e.target.value.replace(/\D/g, '');
-    if (value.length > 2) {
-      value = value.substring(0, 2) + '/' + value.substring(2, 4);
-    }
-    setCardDetails({...cardDetails, expiry: value});
   };
 
   return (
-    <form 
-      onSubmit={handleSubmit}
-      className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md mt-10"
-    >
-      <h2 className="text-2xl font-bold mb-6 text-gray-800">Enter Card Details</h2>
+    <form onSubmit={handleSubmit} className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
+      <h2 className="text-2xl font-bold mb-6 text-gray-800">Payment Details</h2>
       
       <div className="mb-4">
-        <label className="block text-gray-700 mb-2">Cardholder Name</label>
+        <label className="block text-gray-700 mb-2" htmlFor="name">Cardholder Name</label>
         <input
           type="text"
+          id="name"
+          name="name"
           value={cardDetails.name}
-          onChange={(e) => setCardDetails({...cardDetails, name: e.target.value})}
-          className="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-blue-500"
-          placeholder="John Doe"
+          onChange={handleChange}
+          className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           required
         />
       </div>
-
+      
       <div className="mb-4">
-        <label className="block text-gray-700 mb-2">Card Number</label>
+        <label className="block text-gray-700 mb-2" htmlFor="number">Card Number</label>
         <input
           type="text"
+          id="number"
+          name="number"
           value={cardDetails.number}
-          onChange={handleCardNumberChange}
-          className="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-blue-500"
-          placeholder="4242 4242 4242 4242"
+          onChange={handleChange}
+          className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="1234 5678 9012 3456"
           required
         />
       </div>
-
-      <div className="grid grid-cols-2 gap-4 mb-6">
+      
+      <div className="grid grid-cols-2 gap-4 mb-4">
         <div>
-          <label className="block text-gray-700 mb-2">Expiry Date</label>
+          <label className="block text-gray-700 mb-2" htmlFor="expiry">Expiry Date</label>
           <input
             type="text"
+            id="expiry"
+            name="expiry"
             value={cardDetails.expiry}
-            onChange={handleExpiryChange}
-            className="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-blue-500"
+            onChange={handleChange}
+            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="MM/YY"
             required
           />
         </div>
         <div>
-          <label className="block text-gray-700 mb-2">CVC</label>
+          <label className="block text-gray-700 mb-2" htmlFor="cvv">CVV</label>
           <input
             type="text"
-            value={cardDetails.cvc}
-            onChange={(e) => {
-              const value = e.target.value.replace(/\D/g, '').substring(0, 3);
-              setCardDetails({...cardDetails, cvc: value});
-            }}
-            className="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-blue-500"
-            placeholder="123"
+            id="cvv"
+            name="cvv"
+            value={cardDetails.cvv}
+            onChange={handleChange}
+            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
           />
         </div>
       </div>
-
+      
       <button
         type="submit"
-        className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md transition"
+        disabled={loading}
+        className={`w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
       >
-        Pay Now
+        {loading ? 'Processing...' : 'Pay Now'}
       </button>
     </form>
   );
-}
+};
+
+export default PaymentForm;
