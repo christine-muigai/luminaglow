@@ -32,7 +32,12 @@ export default function ReviewForm({ onReviewSubmit }) {
       setUserName('')
       setUserEmail('')
     } catch (err) {
-      setError(err.response?.data?.detail || 'Failed to submit review')
+      // Improved error handling
+      const errorMessage = err.response?.data?.detail || 
+                         err.response?.data?.message || 
+                         err.message || 
+                         'Failed to submit review'
+      setError(errorMessage)
     } finally {
       setSubmitting(false)
     }
@@ -43,7 +48,7 @@ export default function ReviewForm({ onReviewSubmit }) {
       <h3 className="text-lg font-medium mb-4">Add Your Review</h3>
       
       {error && (
-        <div className="mb-4 p-3 text-sm text-red-700 bg-red-100 rounded">
+        <div className="mb-4 p-3 bg-red-50 text-red-600 rounded-md">
           {error}
         </div>
       )}
