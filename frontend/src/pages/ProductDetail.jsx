@@ -32,11 +32,12 @@ export default function ProductDetail() {
   }, [productId])
 
   const handleReviewSubmit = (newReview) => {
-    setReviews([...reviews, newReview])
-    setProduct(prev => ({
-      ...prev,
-      rating: ((prev.rating * (reviews.length)) + newReview.rating) / (reviews.length + 1)
-    }))
+    setReviews(prev => [newReview, ...prev]);
+    if (product) {
+      const updatedReviews = [newReview, ...reviews];
+      const avgRating = updatedReviews.reduce((sum, r) => sum + r.rating, 0) / updatedReviews.length;
+      setProduct(prev => ({ ...prev, rating: Math.round(avgRating * 10) / 10 }));
+    }
   }
 
   const handleAddToCart = () => {
