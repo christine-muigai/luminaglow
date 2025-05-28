@@ -5,6 +5,12 @@
     "total": "Total",
     "checkout": "Checkout",
     "currency": "Currency",
-    "language": "Language"
+    "language": "Language",
+    "home": "Home",
+    "products": "Products",
+    "login": "Login",
+    "register": "Register",
+    "logout": "Logout",
+    "search": "Search"
   }
   

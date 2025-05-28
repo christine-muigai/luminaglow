@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { auth } from '../firebase';
+import { auth } from '../authentication/firebase';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { useTranslation } from 'react-i18next';
 import i18n from '../i18n';
@@ -62,7 +62,6 @@ export default function Navbar() {
             </button>
           )}
 
-          {/* 🌐 Language Switch Buttons */}
           <div className="ml-4 space-x-1 text-sm">
             <button onClick={() => handleLanguageChange('en')} className="px-2 py-1 border rounded">EN</button>
             <button onClick={() => handleLanguageChange('fr')} className="px-2 py-1 border rounded">FR</button>
@@ -76,4 +75,5 @@ export default function Navbar() {
     </nav>
   );
 }
+
 
