@@ -22,3 +22,13 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+# .gitignore
+node_modules/
+.vscode/
+.env
+.venv/
+__pycache__/
+dist/
+build/
+*.log
+
