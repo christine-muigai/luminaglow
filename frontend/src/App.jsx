@@ -1,32 +1,37 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import ProductsPage from './pages/ProductsPage'
-import ProductDetail from './pages/ProductDetail'
-import Navbar from './components/Navbar'
-import Footer from './components/Footer'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import ProductsPage from './pages/ProductsPage';
+import ProductDetail from './pages/ProductDetail';
+import CheckoutPage from './pages/CheckoutPage';
+import PaymentSuccess from './pages/PaymentSuccess';
+import HomePage from './pages/HomePage';
+import Home from './pages/Home';
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 import ShoppingCart from './components/ShoppingCart';
 import Login from './authentication/login';
 import Register from './authentication/register';
-import Home from './pages/Home';
 
 function App() {
   return (
-    <BrowserRouter>
+    <Router>
       <Navbar />
       <div className="container mx-auto px-4 py-8">
         <Routes>
-          <Route path="/home" element={<Home />} />
           <Route path="/" element={<ProductsPage />} />
           <Route path="/products/:productId" element={<ProductDetail />} />
           <Route path="/cart" element={<ShoppingCart />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/homepage" element={<HomePage />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/payment-success" element={<PaymentSuccess />} />
         </Routes>
       </div>
       <Footer />
-    </BrowserRouter>
-  )
+    </Router>
+  );
 }
 
-export default App
-
+export default App;
 

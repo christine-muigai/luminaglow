@@ -7,9 +7,14 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
+# Dependencies
+node_modules/
+
+# Build outputs
 dist
 dist-ssr
+
+# Vite local server files
 *.local
 
 # Editor directories and files
@@ -23,8 +28,6 @@ dist-ssr
 *.sln
 *.sw?
 
-node_modules/
-# Ignore Python cache files
+# Python cache files
 __pycache__/
 *.pyc
-
