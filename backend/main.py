@@ -440,3 +440,7 @@ async def create_review(product_id: int, rating: int, comment: str):
 @app.get("/products/{product_id}/reviews", response_model=List[Review])
 async def get_product_reviews(product_id: int):
     return [r for r in reviews_db if r["product_id"] == product_id]
+
+@app.get("/")
+def read_root():
+    return {"message": "Welcome to Luminaglow API"}
