@@ -5,6 +5,11 @@
     "total": "Jumla",
     "checkout": "Malipo",
     "currency": "Sarafu",
-    "language": "Lugha"
+    "language": "Lugha",
+    "home": "Nyumbani",
+    "products": "Bidhaa",
+    "login": "Ingia",
+    "register": "Jisajili",
+    "logout": "Toka"
   }
   

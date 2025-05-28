@@ -1,6 +1,14 @@
 {
     "welcome": "Bienvenido a LuminaGlow",
     "cart": "Carrito de Compras",
-    "price": "Precio"
+    "price": "Precio",
+    "total": "Total",
+    "checkout": "Pagar",
+    "currency": "Moneda",
+    "home": "Inicio",
+    "products": "Productos",
+    "login": "Iniciar Sesión",
+    "register": "Registrarse",
+    "logout": "Cerrar Sesión"
   }
   

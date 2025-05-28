@@ -22,7 +22,7 @@ export default function Register() {
 
     try {
       await createUserWithEmailAndPassword(auth, email, password);
-      navigate('/products');  // or wherever you want to redirect after signup
+      navigate('/products');  
     } catch (error) {
       setError("Sign up failed. Try a different email or password.");
     }

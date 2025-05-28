@@ -5,6 +5,11 @@
     "total": "Total",
     "checkout": "Paiement",
     "currency": "Devise",
-    "language": "Langue"
+    "language": "Langue",
+    "home": "Accueil",
+    "products": "Produits",
+    "login": "Connexion",
+    "register": "S'inscrire",
+    "logout": "Déconnexion"
   }
   
