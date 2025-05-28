@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
-import ReviewForm from '../components/ReviewForm'
-import ReviewList from '../components/ReviewList'
 
 export default function ProductDetail() {
   const { productId } = useParams()
@@ -29,14 +27,14 @@ export default function ProductDetail() {
     fetchData()
   }, [productId])
 
-  const handleReviewSubmit = (newReview) => {
-    setReviews([...reviews, newReview])
-    // Update local product rating optimistically
-    setProduct(prev => ({
-      ...prev,
-      rating: ((prev.rating * (reviews.length)) + newReview.rating) / (reviews.length + 1)
-    }))
-  }
+  const handleNewReview = (newReview) => {
+    setReviews(prev => [newReview, ...prev]);
+    if (product) {
+      const updatedReviews = [...reviews, newReview];
+      const avgRating = updatedReviews.reduce((sum, r) => sum + r.rating, 0) / updatedReviews.length;
+      setProduct({...product, rating: Math.round(avgRating * 10) / 10});
+    }
+  };
 
   if (loading) return <div className="text-center py-8">Loading...</div>
   if (error) return <div className="text-center py-8 text-red-500">Error: {error}</div>
