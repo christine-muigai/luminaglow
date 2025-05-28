@@ -11,6 +11,18 @@ export default function Navbar() {
           <Link to="/" className="px-3 py-2 text-gray-700 hover:text-blue-600">
             Products
           </Link>
+          <Link to="/login" className="px-3 py-2 text-gray-700 hover:text-blue-600">
+            Login
+          </Link>
+          <Link to="/register" className="px-3 py-2 text-gray-700 hover:text-blue-600">
+            Register
+          </Link>
+          <Link to="/cart" className="px-3 py-2 text-gray-700 hover:text-blue-600">
+            Cart
+          </Link>
+          <Link to="/home" className="px-3 py-2 text-gray-700 hover:text-blue-600">
+            Home
+          </Link>
         </div>
       </div>
     </nav>

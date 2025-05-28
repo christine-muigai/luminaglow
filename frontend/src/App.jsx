@@ -4,8 +4,8 @@ import ProductDetail from './pages/ProductDetail'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import ShoppingCart from './components/ShoppingCart';
-import Login from './authentication/Login';
-import Register from './authentication/Register';
+import Login from './authentication/login';
+import Register from './authentication/register';
 import Home from './pages/Home';
 
 function App() {
