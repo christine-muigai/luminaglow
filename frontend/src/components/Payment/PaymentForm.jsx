@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { processPayment } from '../Services/paymentService'; 
+import { processPayment } from '../Services/Paymentservice.jsx'; 
 
 const PaymentForm = ({ onSuccess, onError }) => {
   const [cardDetails, setCardDetails] = useState({
