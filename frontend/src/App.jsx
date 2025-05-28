@@ -14,8 +14,10 @@ function App() {
           <Route path="/products/:productId" element={<ProductDetail />} />
         </Routes>
       </div>
+      <Footer />
     </BrowserRouter>
   )
 }
 
 export default App
+

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
@@ -95,3 +96,12 @@ export default function ProductDetail() {
     </div>
   )
 }
+=======
+import { useCart } from '../context/CartContext'; 
+
+
+const { addToCart } = useCart();
+
+
+
+>>>>>>> origin/ft-shoppingcart
