@@ -1,14 +1,11 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
-import ReviewForm from '../components/ReviewForm'
-import ReviewList from '../components/ReviewList'
 import { useCart } from '../context/CartContext'
 
 export default function ProductDetail() {
   const { productId } = useParams()
   const [product, setProduct] = useState(null)
-  const [reviews, setReviews] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const { addToCart } = useCart()
@@ -16,12 +13,8 @@ export default function ProductDetail() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [productRes, reviewsRes] = await Promise.all([
-          axios.get(`http://localhost:8000/products/${productId}`),
-          axios.get(`http://localhost:8000/products/${productId}/reviews`)
-        ])
+        const productRes = await axios.get(`http://localhost:8000/products/${productId}`)
         setProduct(productRes.data)
-        setReviews(reviewsRes.data)
       } catch (err) {
         setError(err.message)
       } finally {
@@ -30,15 +23,6 @@ export default function ProductDetail() {
     }
     fetchData()
   }, [productId])
-
-  const handleReviewSubmit = (newReview) => {
-    setReviews(prev => [newReview, ...prev]);
-    if (product) {
-      const updatedReviews = [newReview, ...reviews];
-      const avgRating = updatedReviews.reduce((sum, r) => sum + r.rating, 0) / updatedReviews.length;
-      setProduct(prev => ({ ...prev, rating: Math.round(avgRating * 10) / 10 }));
-    }
-  }
 
   const handleAddToCart = () => {
     addToCart(product)
@@ -98,14 +82,7 @@ export default function ProductDetail() {
             </button>
           </div>
         </div>
-
-        <div className="p-6 border-t border-gray-200">
-          <h2 className="text-xl font-bold mb-6">Customer Reviews</h2>
-          <ReviewForm onReviewSubmit={handleReviewSubmit} />
-          <ReviewList reviews={reviews} />
-        </div>
       </div>
     </div>
   )
 }
-
