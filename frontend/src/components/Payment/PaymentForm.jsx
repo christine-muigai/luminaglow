@@ -8,9 +8,42 @@ export default function PaymentForm() {
     name: ''
   });
 
+  const validateCard = () => {
+    if (!cardDetails.number || cardDetails.number.replace(/\s/g, '').length < 16) {
+      alert("Card number must be 16 digits");
+      return false;
+    }
+    if (!cardDetails.expiry || !cardDetails.expiry.includes('/')) {
+      alert("Expiry date must be in MM/YY format");
+      return false;
+    }
+    if (!cardDetails.cvc || cardDetails.cvc.length < 3) {
+      alert("CVC must be 3 digits");
+      return false;
+    }
+    return true;
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert(JSON.stringify(cardDetails, null, 2));
+    if (validateCard()) {
+      alert("Payment processing would start here!\n" + JSON.stringify(cardDetails, null, 2));
+    }
+  };
+
+  const handleCardNumberChange = (e) => {
+    let value = e.target.value.replace(/\D/g, '');
+    if (value.length > 16) value = value.substring(0, 16);
+    value = value.replace(/(\d{4})(?=\d)/g, '$1 ');
+    setCardDetails({...cardDetails, number: value});
+  };
+
+  const handleExpiryChange = (e) => {
+    let value = e.target.value.replace(/\D/g, '');
+    if (value.length > 2) {
+      value = value.substring(0, 2) + '/' + value.substring(2, 4);
+    }
+    setCardDetails({...cardDetails, expiry: value});
   };
 
   return (
@@ -20,7 +53,6 @@ export default function PaymentForm() {
     >
       <h2 className="text-2xl font-bold mb-6 text-gray-800">Enter Card Details</h2>
       
-      {/* Cardholder Name */}
       <div className="mb-4">
         <label className="block text-gray-700 mb-2">Cardholder Name</label>
         <input
@@ -33,27 +65,25 @@ export default function PaymentForm() {
         />
       </div>
 
-      {/* Card Number */}
       <div className="mb-4">
         <label className="block text-gray-700 mb-2">Card Number</label>
         <input
           type="text"
           value={cardDetails.number}
-          onChange={(e) => setCardDetails({...cardDetails, number: e.target.value})}
+          onChange={handleCardNumberChange}
           className="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-blue-500"
           placeholder="4242 4242 4242 4242"
           required
         />
       </div>
 
-      {/* Expiry and CVC */}
       <div className="grid grid-cols-2 gap-4 mb-6">
         <div>
           <label className="block text-gray-700 mb-2">Expiry Date</label>
           <input
             type="text"
             value={cardDetails.expiry}
-            onChange={(e) => setCardDetails({...cardDetails, expiry: e.target.value})}
+            onChange={handleExpiryChange}
             className="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-blue-500"
             placeholder="MM/YY"
             required
@@ -64,7 +94,10 @@ export default function PaymentForm() {
           <input
             type="text"
             value={cardDetails.cvc}
-            onChange={(e) => setCardDetails({...cardDetails, cvc: e.target.value})}
+            onChange={(e) => {
+              const value = e.target.value.replace(/\D/g, '').substring(0, 3);
+              setCardDetails({...cardDetails, cvc: value});
+            }}
             className="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-blue-500"
             placeholder="123"
             required
@@ -72,7 +105,6 @@ export default function PaymentForm() {
         </div>
       </div>
 
-      {/* Submit Button */}
       <button
         type="submit"
         className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md transition"
