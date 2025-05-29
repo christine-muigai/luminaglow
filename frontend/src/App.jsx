@@ -3,7 +3,6 @@ import ProductsPage from './pages/ProductsPage';
 import ProductDetail from './pages/ProductDetail';
 import CheckoutPage from './pages/CheckoutPage';
 import PaymentSuccess from './components/Payment/PaymentSuccess';
-import Home from './pages/Home';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ShoppingCart from './components/ShoppingCart';
@@ -23,7 +22,6 @@ function App() {
             <Route path="/cart" element={<ShoppingCart />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/home" element={<Home />} />
             <Route path="/checkout" element={<CheckoutPage />} />
             <Route path="/payment-success" element={<PaymentSuccess />} />
           </Routes>
