@@ -16,16 +16,9 @@ export default defineConfig({
       },
     },
     hmr: {
-      overlay: false // Disable error overlay if needed
-    }
-  },
-  css: {
-    postcss: {
-      plugins: [
-        require('@tailwindcss/postcss'),
-        require('autoprefixer')
-      ]
-    }
+      overlay: false,
+    },
   }
 });
+
 
