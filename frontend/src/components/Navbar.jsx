@@ -28,53 +28,60 @@ export default function Navbar() {
 
   return (
     <nav className="bg-white shadow-sm">
-      <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-        <Link to="/" className="text-2xl font-bold text-blue-600">
+      <div className="max-w-7xl mx-auto px-6 py-4 flex flex-col md:flex-row justify-between items-center gap-y-4">
+        {/* Brand */}
+        <Link to="/" className="text-3xl font-extrabold text-blue-600">
           Luminaglow
         </Link>
 
-        <div className="flex space-x-4 items-center">
-          <Link to="/" className="px-3 py-2 text-gray-700 hover:text-blue-600">
-            {t('products')}
-          </Link>
-          <Link to="/cart" className="px-3 py-2 text-gray-700 hover:text-blue-600">
-            {t('cart')}
-          </Link>
-          <Link to="/home" className="px-3 py-2 text-gray-700 hover:text-blue-600">
-            {t('home')}
-          </Link>
+        {/* Navigation Links */}
+        <div className="flex gap-6 text-sm font-medium text-gray-700">
+          <Link to="/" className="hover:text-blue-600 transition">{t('products')}</Link>
+          <Link to="/cart" className="hover:text-blue-600 transition">{t('cart')}</Link>
+          <Link to="/home" className="hover:text-blue-600 transition">{t('home')}</Link>
+          <Link to="/checkout" className="hover:text-blue-600 transition">Payment</Link>
+        </div>
 
+        {/* Right Section: Language & Auth */}
+        <div className="flex flex-col md:flex-row items-center gap-4">
+          {/* Language Buttons */}
+          <div className="flex gap-1 flex-wrap">
+            {['en', 'fr', 'ar', 'sw', 'es', 'zh'].map((lang) => (
+              <button
+                key={lang}
+                onClick={() => handleLanguageChange(lang)}
+                className="px-2 py-1 border rounded-full text-xs font-medium hover:bg-gray-100 transition"
+              >
+                {lang === 'zh' ? '中' : lang.toUpperCase()}
+              </button>
+            ))}
+          </div>
+
+          {/* Auth Buttons */}
           {!loading && !user ? (
-            <>
-              <Link to="/login" className="px-3 py-2 text-gray-700 hover:text-blue-600">
+            <div className="flex gap-3">
+              <Link to="/login" className="px-4 py-1.5 text-sm font-semibold text-gray-700 hover:text-blue-600 transition">
                 {t('login')}
               </Link>
-              <Link to="/register" className="px-3 py-2 text-gray-700 hover:text-blue-600">
+              <Link to="/register" className="px-4 py-1.5 text-sm font-semibold text-gray-700 hover:text-blue-600 transition">
                 {t('register')}
               </Link>
-            </>
+            </div>
           ) : (
             <button
               onClick={handleLogout}
-              className="px-3 py-2 text-white bg-red-500 hover:bg-red-600 rounded"
+              className="px-4 py-2 bg-red-500 text-white rounded-full hover:bg-red-600 text-sm font-semibold transition"
             >
               {t('logout')}
             </button>
           )}
-
-          <div className="ml-4 space-x-1 text-sm">
-            <button onClick={() => handleLanguageChange('en')} className="px-2 py-1 border rounded">EN</button>
-            <button onClick={() => handleLanguageChange('fr')} className="px-2 py-1 border rounded">FR</button>
-            <button onClick={() => handleLanguageChange('ar')} className="px-2 py-1 border rounded">AR</button>
-            <button onClick={() => handleLanguageChange('sw')} className="px-2 py-1 border rounded">SW</button>
-            <button onClick={() => handleLanguageChange('es')} className="px-2 py-1 border rounded">ES</button>
-            <button onClick={() => handleLanguageChange('zh')} className="px-2 py-1 border rounded">中</button>
-          </div>
         </div>
       </div>
     </nav>
   );
 }
+
+
 
 
 
