@@ -1,0 +1,25 @@
+{
+    "welcome": "مرحبًا بك في LuminaGlow",
+    "cart": "سلة التسوق",
+    "price": "السعر",
+    "total": "الإجمالي",
+    "checkout": "الدفع",
+    "currency": "العملة",
+    "language": "اللغة",
+    "logout": "تسجيل الخروج",
+    "login": "تسجيل الدخول",
+    "register": "تسجيل حساب",
+    "home": "الصفحة الرئيسية",
+    "products": "المنتجات",
+    "product_details": "تفاصيل المنتج",
+    "add_to_cart": "إضافة إلى السلة",
+    "our products": "منتجاتنا",
+    "Filter products": "تصفية المنتجات",
+    "Skin type": "نوع البشرة",
+    "Cruelty Free Only": "منتجات خالية من التجارب على الحيوانات فقط",
+    "Vegan Only": "منتجات نباتية فقط",
+    "Max Price": "الحد الأقصى للسعر",
+    "Apply Filters": "تطبيق الفلاتر",
+    "Reset": "إعادة تعيين"
+
+  }

@@ -1,0 +1,26 @@
+{
+    "welcome": "Welcome to LuminaGlow",
+    "cart": "Shopping Cart",
+    "price": "Price",
+    "total": "Total",
+    "checkout": "Checkout",
+    "currency": "Currency",
+    "language": "Language",
+    "home": "Home",
+    "products": "Products",
+    "login": "Login",
+    "register": "Register",
+    "logout": "Logout",
+    "search": "Search",
+    "add_to_cart": "Add to Cart",
+    "product_details": "Product Details",
+    "Our Products": "Our Products",
+    "Filter products": "Filter Products",
+    "Skin type": "Skin Type",
+    "Cruelty Free Only": "Cruelty-Free Only",
+    "Vegan Only": "Vegan Only",
+    "Max Price": "Max Price",
+    "Apply Filters": "Apply Filters",
+    "Reset": "Reset"
+  }
+  
