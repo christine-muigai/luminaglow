@@ -9,14 +9,11 @@ import Footer from './components/Footer';
 import ShoppingCart from './components/ShoppingCart';
 import Login from './authentication/login';
 import Register from './authentication/register';
-import PaymentForm from './components/Payment/PaymentForm';
+
 
 function App() {
   return (
     <>
-      <div className="min-h-screen bg-gray-100 py-10">
-        <PaymentForm />
-      </div>
       <Router>
         <Navbar />
         <div className="container mx-auto px-4 py-8">
