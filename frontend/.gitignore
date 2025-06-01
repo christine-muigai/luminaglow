@@ -31,3 +31,4 @@ dist-ssr
 # Python cache files
 __pycache__/
 *.pyc
+.vercel
