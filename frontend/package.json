@@ -9,7 +9,8 @@
     "start-backend": "cd backend && uvicorn main:app --reload",
     "build": "vite build",
     "preview": "vite preview",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "deploy": "vercel --prod"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
