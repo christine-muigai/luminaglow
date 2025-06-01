@@ -35,9 +35,11 @@ export default function ShoppingCart() {
       {cartItems.length > 0 && (
         <div className="mt-6">
           <p className="text-lg font-semibold">Total: ${total.toFixed(2)}</p>
+          <Link to="/Checkout">
           <button className="mt-4 bg-purple-600 text-white px-4 py-2 rounded-md">
             Proceed to Checkout
           </button>
+          </Link>
         </div>
       )}
 
