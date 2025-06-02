@@ -1,12 +1,69 @@
-# React + Vite
+# LuminaGlow 
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**A global destination for beauty where elegance meets technology.**  
+This group project showcases a full-stack cosmetics website built using **React JSX** and **FastAPI with Python**, allowing users to browse beauty products, add items to their cart, and place orders with a selected payment method.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## Expanding the ESLint configuration
+-  Browse a list of curated beauty products  
+-  Add/remove products from the shopping cart  
+- Select a payment mode: Cash, Credit Card, Mobile Money  
+- Place an order and get a summary of selected items  
+- Backend orders stored in a SQLite database  
+- CLI tool for viewing and creating orders (admin-level)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## Tech Stack
+
+- **Frontend**: React (JSX), Vite, Tailwind CSS  
+- **Backend**: FastAPI, Python  
+- **Database**: SQLite (via SQLAlchemy ORM)  
+- **CLI**: Typer + Rich  
+- **Config**: Pipenv + dotenv  
+- **Deployment**: Local, Vercel-ready (for frontend)
+
+---
+
+## Folder Structure
+LuminaGlow/
+│
+├── frontend/
+│ ├── src/
+│ │ ├── components/
+│ │ │ ├── ProductList.jsx
+│ │ │ └── Cart.jsx
+│ │ ├── App.jsx
+│ │ └── main.jsx
+│ ├── index.html
+│ └── vite.config.js
+│
+├── backend/
+│ ├── app/
+│ │ ├── db.py
+│ │ └── models.py
+│ ├── main.py
+│ └── .env
+│
+├── cli.py
+├── Pipfile
+└── README.md
+
+## 📦 Setup Instructions
+
+# Backend
+cd backend
+python3 -m venv venv
+
+pipenv install
+pipenv run uvicorn main:app --reload
+
+# Frontend
+cd frontend
+npm install
+npm run dev
+
+## License
+This project is licensed under the terms described in [MIT LICENSE](./LICENSE).
