@@ -740,12 +740,14 @@ async def get_products(
     
     return filtered_products
 
+
 @app.get("/products/{product_id}", response_model=Product)
 async def get_product(product_id: int):
     product = next((p for p in products_db if p["id"] == product_id), None)
     if not product:
         raise HTTPException(status_code=404, detail="Product not found")
     return product
+
 
 @app.post("/products/{product_id}/reviews", status_code=status.HTTP_201_CREATED, response_model=Review)
 async def create_review(product_id: int, review: ReviewCreate):
@@ -765,13 +767,16 @@ async def create_review(product_id: int, review: ReviewCreate):
     update_product_rating(product_id)
     return new_review
 
+
 @app.get("/products/{product_id}/reviews", response_model=List[Review])
 async def get_product_reviews(product_id: int):
     return [r for r in reviews_db if r["product_id"] == product_id]
 
+
 @app.get("/")
 def read_root():
     return {"message": "Welcome to Luminaglow API"}
+
 
 def update_product_rating(product_id: int):
     product_reviews = [r for r in reviews_db if r["product_id"] == product_id]
