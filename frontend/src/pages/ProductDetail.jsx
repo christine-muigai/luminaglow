@@ -12,29 +12,15 @@ export default function ProductDetail() {
 
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true)
-      setError('')
       try {
-        const parsedId = parseInt(productId, 10)
-
-        // Log for debugging
-        console.log("Parsed productId:", parsedId)
-        if (isNaN(parsedId)) {
-          throw new Error("Invalid product ID")
-        }
-
-        const url = `https://luminaglow-gl6l.onrender.com/products/${parsedId}`
-        console.log("Request URL:", url)
-
-        const productRes = await axios.get(url)
+        const productRes = await axios.get(`https://luminaglow-gl6l.onrender.com/products/${productId}`)
         setProduct(productRes.data)
       } catch (err) {
-        setError(err.response?.data?.detail || err.message || "Failed to load product")
+        setError(err.message)
       } finally {
         setLoading(false)
       }
     }
-
     fetchData()
   }, [productId])
 
@@ -100,5 +86,4 @@ export default function ProductDetail() {
     </div>
   )
 }
-
 
