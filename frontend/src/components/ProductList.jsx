@@ -9,7 +9,7 @@ const ProductList = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch('http://localhost:8000/products');
+        const response = await fetch('https://luminaglow-gl6l.onrender.com/products');
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }

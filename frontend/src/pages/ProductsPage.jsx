@@ -13,7 +13,7 @@ export default function ProductsPage() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/products')
+        const response = await axios.get('https://luminaglow-gl6l.onrender.com/products')
         setProducts(response.data)
         setFilteredProducts(response.data)
       } catch (err) {

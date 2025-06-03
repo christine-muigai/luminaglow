@@ -13,7 +13,7 @@ export default function ProductDetail() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const productRes = await axios.get(`http://localhost:8000/products/${productId}`)
+        const productRes = await axios.get(`https://luminaglow-gl6l.onrender.com/products/${productId}`)
         setProduct(productRes.data)
       } catch (err) {
         setError(err.message)
