@@ -10,32 +10,19 @@ export default function ProductDetail() {
   const [error, setError] = useState('')
   const { addToCart } = useCart()
 
- useEffect(() => {
-  const fetchData = async () => {
-    try {
-      console.log("productId from useParams:", productId)  
-
-      const id = parseInt(productId, 10)  
-
-      if (isNaN(id)) {
-        setError("Invalid product ID")
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const productRes = await axios.get(`https://luminaglow-gl6l.onrender.com/products/${productId}`)
+        setProduct(productRes.data)
+      } catch (err) {
+        setError(err.message)
+      } finally {
         setLoading(false)
-        return
       }
-
-      const productRes = await axios.get(`https://luminaglow-gl6l.onrender.com/products/${id}`)
-      setProduct(productRes.data)
-    } catch (err) {
-      setError(err.message)
-    } finally {
-      setLoading(false)
     }
-
-  }
-  fetchData(console.log("Fetching product from URL:", `https://luminaglow-gl6l.onrender.com/products/${id}`)
-)
-}, [productId])
-
+    fetchData()
+  }, [productId])
 
   const handleAddToCart = () => {
     addToCart(product)
