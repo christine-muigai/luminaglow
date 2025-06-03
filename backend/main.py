@@ -731,14 +731,15 @@ async def get_products(
     
     if skin_type:
         filtered_products = [p for p in filtered_products if p["skin_type"] == skin_type]
-    if max_price:
+    if max_price is not None:
         filtered_products = [p for p in filtered_products if p["price"] <= max_price]
-    if cruelty_free:
+    if cruelty_free is not None:
         filtered_products = [p for p in filtered_products if p["is_cruelty_free"] == cruelty_free]
-    if vegan:
+    if vegan is not None:
         filtered_products = [p for p in filtered_products if p["is_vegan"] == vegan]
     
     return filtered_products
+
 
 @app.get("/products/{product_id}", response_model=Product)
 async def get_product(product_id: int):
@@ -747,36 +748,14 @@ async def get_product(product_id: int):
         raise HTTPException(status_code=404, detail="Product not found")
     return product
 
-@app.post("/products/{product_id}/reviews")
-def create_review(product_id: int, review: ReviewCreate):
-    return {"status": "success"}
 
-@app.post("/products/{product_id}/reviews", status_code=status.HTTP_201_CREATED, response_model=Review)
-async def create_review(product_id: int, rating: int, comment: str):
-    if not any(p["id"] == product_id for p in products_db):
-        raise HTTPException(status_code=404, detail="Product not found")
-    
-    if rating < 1 or rating > 5:
-        raise HTTPException(status_code=400, detail="Rating must be between 1-5")
-    
-    review = {
-        "id": str(uuid.uuid4()),
-        "product_id": product_id,
-        "rating": rating,
-        "comment": comment,
-        "created_at": datetime.now().isoformat()
-    }
-    reviews_db.append(review)
-    update_product_rating(product_id)
-    return review
-
-@app.get("/products/{product_id}/reviews", response_model=List[Review])
-async def get_product_reviews(product_id: int):
-    return [r for r in reviews_db if r["product_id"] == product_id]
 @app.post("/products/{product_id}/reviews", status_code=status.HTTP_201_CREATED, response_model=Review)
 async def create_review(product_id: int, review: ReviewCreate):
     if not any(p["id"] == product_id for p in products_db):
         raise HTTPException(status_code=404, detail="Product not found")
+    
+    if review.rating < 1 or review.rating > 5:
+        raise HTTPException(status_code=400, detail="Rating must be between 1-5")
     
     new_review = {
         "id": str(uuid.uuid4()),
@@ -788,6 +767,7 @@ async def create_review(product_id: int, review: ReviewCreate):
     update_product_rating(product_id)
     return new_review
 
+
 @app.get("/products/{product_id}/reviews", response_model=List[Review])
 async def get_reviews(product_id: int):
     return [r for r in reviews_db if r["product_id"] == product_id]
@@ -796,6 +776,7 @@ async def get_reviews(product_id: int):
 @app.get("/")
 def read_root():
     return {"message": "Welcome to Luminaglow API"}
+
 
 def update_product_rating(product_id: int):
     product_reviews = [r for r in reviews_db if r["product_id"] == product_id]
@@ -804,81 +785,3 @@ def update_product_rating(product_id: int):
         for product in products_db:
             if product["id"] == product_id:
                 product["rating"] = round(avg_rating, 1)
-
-
-@app.get("/products", response_model=List[Product])
-async def get_products(
-    skin_type: Optional[str] = None,
-    max_price: Optional[float] = None,
-    cruelty_free: Optional[bool] = None,
-    vegan: Optional[bool] = None
-):
-    filtered_products = products_db.copy()
-    
-    if skin_type:
-        filtered_products = [p for p in filtered_products if p["skin_type"] == skin_type]
-    if max_price:
-        filtered_products = [p for p in filtered_products if p["price"] <= max_price]
-    if cruelty_free:
-        filtered_products = [p for p in filtered_products if p["is_cruelty_free"] == cruelty_free]
-    if vegan:
-        filtered_products = [p for p in filtered_products if p["is_vegan"] == vegan]
-    
-    return filtered_products
-
-@app.get("/products/{product_id}", response_model=Product)
-async def get_product(product_id: int):
-    product = next((p for p in products_db if p["id"] == product_id), None)
-    if not product:
-        raise HTTPException(status_code=404, detail="Product not found")
-    return product
-
-@app.post("/products/{product_id}/reviews")
-def create_review(product_id: int, review: ReviewCreate):
-    return {"status": "success"}
-
-@app.post("/products/{product_id}/reviews", status_code=status.HTTP_201_CREATED, response_model=Review)
-async def create_review(product_id: int, rating: int, comment: str):
-    if not any(p["id"] == product_id for p in products_db):
-        raise HTTPException(status_code=404, detail="Product not found")
-    
-    if rating < 1 or rating > 5:
-        raise HTTPException(status_code=400, detail="Rating must be between 1-5")
-    
-    review = {
-        "id": str(uuid.uuid4()),
-        "product_id": product_id,
-        "rating": rating,
-        "comment": comment,
-        "created_at": datetime.now().isoformat()
-    }
-    reviews_db.append(review)
-    update_product_rating(product_id)
-    return review
-
-@app.get("/products/{product_id}/reviews", response_model=List[Review])
-async def get_product_reviews(product_id: int):
-    return [r for r in reviews_db if r["product_id"] == product_id]
-@app.post("/products/{product_id}/reviews", status_code=status.HTTP_201_CREATED, response_model=Review)
-async def create_review(product_id: int, review: ReviewCreate):
-    if not any(p["id"] == product_id for p in products_db):
-        raise HTTPException(status_code=404, detail="Product not found")
-    
-    new_review = {
-        "id": str(uuid.uuid4()),
-        "product_id": product_id,
-        **review.dict(),
-        "created_at": datetime.now().isoformat()
-    }
-    reviews_db.append(new_review)
-    update_product_rating(product_id)
-    return new_review
-
-@app.get("/products/{product_id}/reviews", response_model=List[Review])
-async def get_reviews(product_id: int):
-    return [r for r in reviews_db if r["product_id"] == product_id]
-
-
-@app.get("/")
-def read_root():
-    return {"message": "Welcome to Luminaglow API"}
