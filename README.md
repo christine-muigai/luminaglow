@@ -4,6 +4,10 @@
 This group project showcases a full-stack cosmetics website built using **React JSX** and **FastAPI with Python**, allowing users to browse beauty products, add items to their cart, and place orders with a selected payment method.
 
 ---
+##  Live Demo
+
+[ View on Render](https://luminaglow-gl6l.onrender.com/)  
+[ Frontend Repo](https://frontend-69n7k827n-christine-waithira-muigais-projects.vercel.app)
 
 ## Features
 
