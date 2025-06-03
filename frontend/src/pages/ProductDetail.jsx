@@ -13,10 +13,15 @@ export default function ProductDetail() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const productRes = await axios.get(`https://luminaglow-gl6l.onrender.com/products/${productId}`)
+        const id = parseInt(productId, 10)
+        if (isNaN(id)) {
+          throw new Error('Invalid product ID')
+        }
+
+        const productRes = await axios.get(`https://luminaglow-gl6l.onrender.com/products/${id}`)
         setProduct(productRes.data)
       } catch (err) {
-        setError(err.message)
+        setError(err.response?.data?.detail?.[0]?.msg || err.message)
       } finally {
         setLoading(false)
       }
@@ -86,3 +91,4 @@ export default function ProductDetail() {
     </div>
   )
 }
+
