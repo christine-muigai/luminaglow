@@ -55,7 +55,7 @@ LuminaGlow/
 ├── Pipfile
 └── README.md
 
-## 📦 Setup Instructions
+## Setup Instructions
 
 # Backend
 cd backend
