@@ -6,7 +6,7 @@ This group project showcases a full-stack cosmetics website built using **React 
 ---
 ##  Live Demo
 
-[ View on Render](https://luminaglow-gl6l.onrender.com/)  
+[ View on Render](https://luminaglow-gl6l.onrender.com)  
 [ Frontend Repo](https://frontend-69n7k827n-christine-waithira-muigais-projects.vercel.app)
 
 ## Features
