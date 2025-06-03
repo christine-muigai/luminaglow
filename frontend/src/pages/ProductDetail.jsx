@@ -22,7 +22,7 @@ export default function ProductDetail() {
           return
         }
 
-        const productRes = await axios.get(`https://luminaglow-gl6l.onrender.com/products/${id}`)
+        const productRes = await axios.get(`https://luminaglow-gl6l.onrender.com/${productId}`)
         setProduct(productRes.data)
       } catch (err) {
         setError(err.message)
@@ -33,7 +33,7 @@ export default function ProductDetail() {
 
     fetchData()
   }, [productId])
-  
+
   const handleAddToCart = () => {
     addToCart(product)
   }
