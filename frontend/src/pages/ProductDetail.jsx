@@ -11,32 +11,18 @@ export default function ProductDetail() {
   const { addToCart } = useCart()
 
  useEffect(() => {
-  const fetchData = async () => {
-    try {
-      const id = Number(productId)
-      console.log("Parsed productId:", id)
-
-      if (!Number.isInteger(id)) {
-        setError("Invalid product ID")
+    const fetchData = async () => {
+      try {
+        const productRes = await axios.get(`https://luminaglow-gl6l.onrender.com/products/${productId}`)
+        setProduct(productRes.data)
+      } catch (err) {
+        setError(err.message)
+      } finally {
         setLoading(false)
-        return
       }
-
-      const url = `https://luminaglow-gl6l.onrender.com/products/${id}`
-      console.log("Fetching from URL:", url)
-
-      const productRes = await axios.get(url)
-      setProduct(productRes.data)
-    } catch (err) {
-      console.error("❌ Error fetching product:", err)
-      setError(err.response?.data?.detail || err.message)
-    } finally {
-      setLoading(false)
     }
-  }
-
-  fetchData()
-}, [productId])
+    fetchData()
+  }, [productId])
 
 
   const handleAddToCart = () => {
