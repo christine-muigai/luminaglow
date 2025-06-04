@@ -20,8 +20,15 @@ export default function ProductDetail() {
       return;
     }
 
+    const parsedId = parseInt(productId, 10);
+    if (isNaN(parsedId)) {
+      setError("Invalid product ID.");
+      setLoading(false);
+      return;
+    }
+
     try {
-      const productRes = await axios.get(`https://luminaglow-gl6l.onrender.com/products/1`);
+      const productRes = await axios.get(`https://luminaglow-gl6l.onrender.com/products/${parsedId}`);
       setProduct(productRes.data);
     } catch (err) {
       setError(err.message);
@@ -32,6 +39,7 @@ export default function ProductDetail() {
 
   fetchData();
 }, [productId]);
+
 
 
   const handleAddToCart = () => {
