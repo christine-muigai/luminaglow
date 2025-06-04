@@ -10,28 +10,26 @@ export default function ProductDetail() {
   const [error, setError] = useState('')
   const { addToCart } = useCart()
 
- useEffect(() => {
+  useEffect(() => {
   const fetchData = async () => {
-    console.log("Fetched productId:", productId);
+    console.log("Raw productId from useParams():", productId);
 
-    if (!productId) {
-      setError("No product ID found.");
-      setLoading(false);
-      return;
-    }
-
+    // Parse productId to integer
     const parsedId = parseInt(productId, 10);
+    console.log("Parsed productId:", parsedId);
+
+    // Check if parsedId is a valid number
     if (isNaN(parsedId)) {
-      setError("Invalid product ID.");
+      setError("Invalid product ID");
       setLoading(false);
       return;
     }
 
     try {
-      const productRes = await axios.get(`https://luminaglow-gl6l.onrender.com/products/${parsedId}`);
-      setProduct(productRes.data);
+      const response = await axios.get(`https://luminaglow-gl6l.onrender.com/products/${parsedId}`);
+      setProduct(response.data);
     } catch (err) {
-      setError(err.message);
+      setError(err.message || "Error fetching product");
     } finally {
       setLoading(false);
     }
@@ -39,6 +37,7 @@ export default function ProductDetail() {
 
   fetchData();
 }, [productId]);
+
 
 
 
