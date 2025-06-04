@@ -12,7 +12,7 @@ export default function ProductDetail() {
 
  useEffect(() => {
   const fetchData = async () => {
-    console.log("Fetched productId:", productId); // 👈 add this here
+    console.log("Fetched productId:", productId);
 
     if (!productId) {
       setError("No product ID found.");
@@ -21,7 +21,7 @@ export default function ProductDetail() {
     }
 
     try {
-      const productRes = await axios.get(`https://luminaglow-gl6l.onrender.com/products/${productId}`);
+      const productRes = await axios.get(`https://luminaglow-gl6l.onrender.com/products/1`);
       setProduct(productRes.data);
     } catch (err) {
       setError(err.message);
