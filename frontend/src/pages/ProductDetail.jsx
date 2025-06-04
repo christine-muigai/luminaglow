@@ -14,7 +14,7 @@ export default function ProductDetail() {
     const fetchData = async () => {
       try {
         const id = parseInt(productId, 10)
-        console.log("Parsed productId:", id)
+        console.log(" Parsed productId:", id)
 
         if (isNaN(id)) {
           setError("Invalid product ID")
@@ -22,10 +22,14 @@ export default function ProductDetail() {
           return
         }
 
-        const productRes = await axios.get(`https://luminaglow-gl6l.onrender.com/${productId}`)
+        const url = `https://luminaglow-gl6l.onrender.com/products/${id}`
+        console.log(" Fetching from URL:", url)
+
+        const productRes = await axios.get(url)
         setProduct(productRes.data)
       } catch (err) {
-        setError(err.message)
+        console.error("❌ Error fetching product:", err)
+        setError(err.response?.data?.detail || err.message)
       } finally {
         setLoading(false)
       }
@@ -57,7 +61,7 @@ export default function ProductDetail() {
             <h1 className="text-2xl font-bold">{product.name}</h1>
             <p className="text-gray-600 text-lg mt-1">{product.brand}</p>
             <p className="text-xl text-blue-600 mt-2">${product.price.toFixed(2)}</p>
-            
+
             <div className="flex items-center mt-4">
               <div className="flex text-yellow-400">
                 {'★'.repeat(Math.floor(product.rating))}
