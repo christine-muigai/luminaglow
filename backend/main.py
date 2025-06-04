@@ -340,6 +340,11 @@ import uuid
 
 app = FastAPI()
 
+origins = [
+    "https://frontend-69n7k827n-christine-waithira-muigais-projects.vercel.app",
+    "http://localhost:5173",  
+]
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
