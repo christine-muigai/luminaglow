@@ -341,7 +341,6 @@ import uuid
 app = FastAPI()
 
 origins = [
-    "https://frontend-eta-dun-74.vercel.app/",
     "http://localhost:5173",  
 ]
 
