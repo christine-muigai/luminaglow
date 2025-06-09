@@ -37,9 +37,7 @@ export default function ProductCard({ product }) {
       <div className="p-4 border-t border-gray-100">
         <div className="flex justify-between items-center">
           <span className="font-bold text-blue-600">${product.price.toFixed(2)}</span>
-          <Link to={`/products/${product.id}`} className="text-sm text-blue-500 hover:underline">
-            View Details
-          </Link>
+          <span className="text-sm text-gray-500">View Details</span>
         </div>
       </div>
     </div>
